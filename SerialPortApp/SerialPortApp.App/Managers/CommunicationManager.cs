@@ -3,6 +3,7 @@ using System.Drawing;
 using System.IO.Ports;
 using System.Text;
 using System.Windows.Forms;
+using SerialPortApp.App.Client;
 
 namespace SerialPortApp.App.Managers
 {
@@ -30,8 +31,13 @@ namespace SerialPortApp.App.Managers
         private TransmissionType _transType;
         private RichTextBox _displayWindow;
         //global manager variables
+        
         private Color[] MessageColor = { Color.Blue, Color.Green, Color.Black, Color.Orange, Color.Red };
+        
         private SerialPort comPort = new SerialPort();
+
+        private CustomClient _customClient;
+        
         #endregion
 
         #region Manager Properties
@@ -123,7 +129,8 @@ namespace SerialPortApp.App.Managers
             _dataBits = dBits;
             _portName = name;
             _displayWindow = rtb;
-            //now add an event handler
+
+            // Add an event handler.
             comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
         }
 
@@ -139,6 +146,7 @@ namespace SerialPortApp.App.Managers
             _dataBits = string.Empty;
             _portName = "COM1";
             _displayWindow = null;
+            _customClient = new CustomClient();
             //add event handler
             comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
         }
@@ -147,6 +155,7 @@ namespace SerialPortApp.App.Managers
         #region WriteData
         public void WriteData(string msg)
         {
+            _customClient.WriteTelnet(msg);
             switch (CurrentTransmissionType)
             {
                 case TransmissionType.Text:
