@@ -9,19 +9,10 @@ namespace SerialPortApp.App.Managers
 {
     public class CommunicationManager
     {
-        #region Manager Enums
-        /// <summary>
-        /// enumeration to hold our transmission types
-        /// </summary>
+        
         public enum TransmissionType { Text, Hex }
 
-        /// <summary>
-        /// enumeration to hold our message types
-        /// </summary>
-        public enum MessageType { Incoming, Outgoing, Normal, Warning, Error };
-        #endregion
 
-        #region Manager Variables
         //property variables
         private string _baudRate = string.Empty;
         private string _parity = string.Empty;
@@ -38,89 +29,60 @@ namespace SerialPortApp.App.Managers
 
         private CustomClient _customClient;
         
-        #endregion
-
-        #region Manager Properties
-        /// <summary>
-        /// Property to hold the BaudRate
-        /// of our manager class
-        /// </summary>
+        
         public string BaudRate
         {
             get { return _baudRate; }
             set { _baudRate = value; }
         }
 
-        /// <summary>
-        /// property to hold the Parity
-        /// of our manager class
-        /// </summary>
+        
+        
         public string Parity
         {
             get { return _parity; }
             set { _parity = value; }
         }
 
-        /// <summary>
-        /// property to hold the StopBits
-        /// of our manager class
-        /// </summary>
+        
+        
         public string StopBits
         {
             get { return _stopBits; }
             set { _stopBits = value; }
         }
-
-        /// <summary>
-        /// property to hold the DataBits
-        /// of our manager class
-        /// </summary>
+        
+        
         public string DataBits
         {
             get { return _dataBits; }
             set { _dataBits = value; }
         }
-
-        /// <summary>
-        /// property to hold the PortName
-        /// of our manager class
-        /// </summary>
+        
+        
         public string PortName
         {
             get { return _portName; }
             set { _portName = value; }
         }
 
-        /// <summary>
-        /// property to hold our TransmissionType
-        /// of our manager class
-        /// </summary>
+        
+        
         public TransmissionType CurrentTransmissionType
         {
             get { return _transType; }
             set { _transType = value; }
         }
-
-        /// <summary>
-        /// property to hold our display window
-        /// value
-        /// </summary>
+        
+        
         public RichTextBox DisplayWindow
         {
             get { return _displayWindow; }
             set { _displayWindow = value; }
         }
-        #endregion
-
-        #region Manager Constructors
-        /// <summary>
-        /// Constructor to set the properties of our Manager Class
-        /// </summary>
-        /// <param name="baud">Desired BaudRate</param>
-        /// <param name="par">Desired Parity</param>
-        /// <param name="sBits">Desired StopBits</param>
-        /// <param name="dBits">Desired DataBits</param>
-        /// <param name="name">Desired PortName</param>
+        
+        
+        
         public CommunicationManager(string baud, string par, string sBits, string dBits, string name, RichTextBox rtb)
         {
             _baudRate = baud;
@@ -131,13 +93,11 @@ namespace SerialPortApp.App.Managers
             _displayWindow = rtb;
 
             // Add an event handler.
-            comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
+            comPort.DataReceived += comPort_DataReceived;
         }
-
-        /// <summary>
-        /// Comstructor to set the properties of our
-        /// serial port communicator to nothing
-        /// </summary>
+        
+        
+        
         public CommunicationManager()
         {
             _baudRate = string.Empty;
@@ -147,12 +107,13 @@ namespace SerialPortApp.App.Managers
             _portName = "COM1";
             _displayWindow = null;
             _customClient = new CustomClient();
+            _customClient.ReadTelnet(DisplayData);
             //add event handler
-            comPort.DataReceived += new SerialDataReceivedEventHandler(comPort_DataReceived);
+            comPort.DataReceived += comPort_DataReceived;
         }
-        #endregion
-
-        #region WriteData
+        
+        
+        
         public void WriteData(string msg)
         {
             _customClient.WriteTelnet(msg);
@@ -196,17 +157,11 @@ namespace SerialPortApp.App.Managers
                     //display the message
                     DisplayData(MessageType.Outgoing, msg + "\n");
                     break;
-                    break;
             }
         }
-        #endregion
-
-        #region HexToByte
-        /// <summary>
-        /// method to convert hex string into a byte array
-        /// </summary>
-        /// <param name="msg">string to convert</param>
-        /// <returns>a byte array</returns>
+        
+        
+        
         private byte[] HexToByte(string msg)
         {
             //remove any spaces from the string
@@ -222,14 +177,8 @@ namespace SerialPortApp.App.Managers
             //return the array
             return comBuffer;
         }
-        #endregion
-
-        #region ByteToHex
-        /// <summary>
-        /// method to convert a byte array into a hex string
-        /// </summary>
-        /// <param name="comByte">byte array to convert</param>
-        /// <returns>a hex string</returns>
+        
+        
         private string ByteToHex(byte[] comByte)
         {
             //create a new StringBuilder object
@@ -241,15 +190,8 @@ namespace SerialPortApp.App.Managers
             //return the converted value
             return builder.ToString().ToUpper();
         }
-        #endregion
-
-        #region DisplayData
-        /// <summary>
-        /// method to display the data to & from the port
-        /// on the screen
-        /// </summary>
-        /// <param name="type">MessageType of the message</param>
-        /// <param name="msg">Message to display</param>
+        
+        
         [STAThread]
         private void DisplayData(MessageType type, string msg)
         {
@@ -262,9 +204,9 @@ namespace SerialPortApp.App.Managers
             _displayWindow.ScrollToCaret();
         }));
         }
-        #endregion
-
-        #region OpenPort
+        
+        
+        
         public bool OpenPort()
         {
             try
@@ -292,9 +234,9 @@ namespace SerialPortApp.App.Managers
                 return false;
             }
         }
-        #endregion
-
-        #region SetParityValues
+        
+        
+        
         public void SetParityValues(object obj)
         {
             foreach (string str in Enum.GetNames(typeof(Parity)))
@@ -302,9 +244,8 @@ namespace SerialPortApp.App.Managers
                 ((ComboBox)obj).Items.Add(str);
             }
         }
-        #endregion
-
-        #region SetStopBitValues
+        
+        
         public void SetStopBitValues(object obj)
         {
             foreach (string str in Enum.GetNames(typeof(StopBits)))
@@ -312,9 +253,9 @@ namespace SerialPortApp.App.Managers
                 ((ComboBox)obj).Items.Add(str);
             }
         }
-        #endregion
+        
 
-        #region SetPortNameValues
+        
         public void SetPortNameValues(object obj)
         {
 
@@ -323,14 +264,8 @@ namespace SerialPortApp.App.Managers
                 ((ComboBox)obj).Items.Add(str);
             }
         }
-        #endregion
-
-        #region comPort_DataReceived
-        /// <summary>
-        /// method that will be called when theres data waiting in the buffer
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
+        
         void comPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             //determine the mode the user selected (binary/string)
@@ -362,6 +297,5 @@ namespace SerialPortApp.App.Managers
                     break;
             }
         }
-        #endregion
     }
 }

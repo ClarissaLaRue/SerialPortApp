@@ -3,6 +3,8 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using SerialPortApp.App.Managers;
+
 namespace SerialPortApp.App.Client
 {
     public class CustomClient
@@ -20,7 +22,6 @@ namespace SerialPortApp.App.Client
             _tcpClient.Connect(endPoint);
         }
 
-
         public void ReloadApp()
         {
             var host = IPAddress.Parse(_ipHost);
@@ -37,7 +38,7 @@ namespace SerialPortApp.App.Client
             Console.ReadLine();*/
         }
 
-        public string ReadTelnet(long timeout = 1000)
+        public void ReadTelnet(Action<MessageType,string> display, long timeout = 1000)
         {
             for (long i = 0; i < timeout; i++)
             {
@@ -52,20 +53,21 @@ namespace SerialPortApp.App.Client
                     System.Threading.Thread.Sleep(10000);
 
                     var buffer = new byte[_tcpClient.ReceiveBufferSize];
-                    var p = stream.Read(buffer, 0, _tcpClient.ReceiveBufferSize);
+                    stream.Read(buffer, 0, _tcpClient.ReceiveBufferSize);
 
                     var response = Encoding.GetEncoding(1251).GetString(buffer).Trim('\0');
-                    Console.WriteLine($@"{i}. {response}");
+                    if (!string.IsNullOrEmpty(response))
+                    {
+                        display(MessageType.Normal, response);
+                    }
                     if (response == "")
                     {
                         continue;
                     }
 
-                    return response;
+                    return;
                 } while (stream.DataAvailable);
             }
-
-            return null;
         }
 
         public void WriteTelnet(string command, long timeout = 1000)
