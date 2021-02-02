@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortApp.Business", "SerialPortApp.Business\SerialPortApp.Business.csproj", "{A25FBB42-6099-4891-9D6C-14F886F6B7B6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortApp.Models", "SerialPortApp.Models\SerialPortApp.Models.csproj", "{A9DDD377-0D37-414B-8CB9-D5CDF4CC28BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerialPortApp.App", "SerialPortApp.App\SerialPortApp.App.csproj", "{05C054C8-4F38-4659-B015-455FE6E5832F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A25FBB42-6099-4891-9D6C-14F886F6B7B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A25FBB42-6099-4891-9D6C-14F886F6B7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A25FBB42-6099-4891-9D6C-14F886F6B7B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A25FBB42-6099-4891-9D6C-14F886F6B7B6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9DDD377-0D37-414B-8CB9-D5CDF4CC28BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9DDD377-0D37-414B-8CB9-D5CDF4CC28BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9DDD377-0D37-414B-8CB9-D5CDF4CC28BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9DDD377-0D37-414B-8CB9-D5CDF4CC28BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05C054C8-4F38-4659-B015-455FE6E5832F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05C054C8-4F38-4659-B015-455FE6E5832F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05C054C8-4F38-4659-B015-455FE6E5832F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05C054C8-4F38-4659-B015-455FE6E5832F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
