@@ -107,7 +107,6 @@ namespace SerialPortApp.App.Managers
             _portName = "COM1";
             _displayWindow = null;
             _customClient = new CustomClient();
-            _customClient.ReadTelnet(DisplayData);
             //add event handler
             comPort.DataReceived += comPort_DataReceived;
         }
@@ -226,6 +225,7 @@ namespace SerialPortApp.App.Managers
                 //display message
                 DisplayData(MessageType.Normal, "Port opened at " + DateTime.Now + "\n");
                 //return true
+                _customClient.ReadTelnet(DisplayData);
                 return true;
             }
             catch (Exception ex)
